@@ -1,4 +1,4 @@
-#Decision Tree Regression 
+#Random Forest Regression 
 
 #Importing the dataset
 ds = read.csv('Position_Salaries.csv')
@@ -11,7 +11,7 @@ library(caTools)
 set.seed(123)
 
 
-#Fitting Decision Tree Regression To The Dataset
+#Fitting Random Forest Regression To The Dataset
 #install.packages('randomForest')
 library(randomForest)
 set.seed(1234)
@@ -20,13 +20,13 @@ rf_reg = randomForest(x = dataset[1],
                       ntree = 500)
 
 
-#Predicting A New Result With Decision Tree Regression
+#Predicting A New Result With Random Forest Regression
 X_test = 6.5 
 y_pred = predict(rf_reg, 
                  data.frame(Level = X_test))
 
 
-#Visualizing Decision Tree Regression Results (higher 
+#Visualizing Random Forest Regression Results (higher 
 #resolution)
 #install.packages('ggplot2')
 library(ggplot2)

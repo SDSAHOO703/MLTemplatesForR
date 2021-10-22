@@ -6,7 +6,7 @@ dataset = ds[2:3]   #First column is redundant
 
 
 # Installing necessary packages
-install.packages('caTools')
+# install.packages('caTools')
 library(caTools)
 set.seed(123)
 
@@ -24,7 +24,7 @@ y_pred_6_5_lr = predict(lin_reg,
 
 
 #Visualizing Linear Regression Results
-install.packages('ggplot2')
+# install.packages('ggplot2')
 library(ggplot2)
 ggplot() +
   geom_point(aes(x = dataset$Level,

@@ -22,6 +22,3 @@ regressor = lm(formula = Profit ~ .,
 
 # Predicting the Test set results
 y_pred = predict(regressor, newdata = test_set)
-
-
-

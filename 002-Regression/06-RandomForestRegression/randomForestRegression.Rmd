@@ -1,0 +1,56 @@
+# Random Forest Regression 
+
+### Importing the dataset
+```{r}
+ds = read.csv('Position_Salaries.csv')
+dataset = ds[2:3]   #First column is redundant 
+```
+
+
+### Installing necessary packages
+```{r}
+#install.packages('caTools')
+library(caTools)
+set.seed(123)
+```
+
+
+### Fitting Random Forest Regression To The Dataset
+```{r}
+#install.packages('randomForest')
+library(randomForest)
+set.seed(1234)
+rf_reg = randomForest(x = dataset[1],
+                      y = dataset$Salary,
+                      ntree = 500)
+```
+
+
+### Predicting A New Result With Random Forest Regression
+```{r}
+X_test = 6.5 
+y_pred = predict(rf_reg, 
+                 data.frame(Level = X_test))
+sprintf("The expected annual salary for a person with 6.5 years of experience (in USD): %.2f", y_pred)
+```
+
+
+### Visualizing Random Forest Regression Results (higher resolution)
+```{r}
+#install.packages('ggplot2')
+library(ggplot2)
+x_grid = seq(min(dataset$Level), 
+             max(dataset$Level),
+             0.01)
+ggplot() +
+  geom_point(aes(x = dataset$Level,
+                 y = dataset$Salary),
+             colour = 'red') +
+  geom_line(aes(x = x_grid,
+                y = predict(rf_reg, 
+                            data.frame(Level = x_grid))),
+            colour = 'blue') + 
+  ggtitle('Truth or Bluff (Random Forest Regression)') + 
+  xlab('Position Level') +
+  ylab('Salary') 
+```

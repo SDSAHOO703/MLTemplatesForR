@@ -1,0 +1,62 @@
+# Support Vector Regression 
+
+### Importing the dataset
+```{r}
+ds = read.csv('Position_Salaries.csv')
+dataset = ds[2:3]   #First column is redundant
+```
+
+
+### Installing necessary packages
+```{r}
+# install.packages('caTools')
+library(caTools)
+set.seed(123)
+```
+
+
+### Fitting Support Vector Regression To The Dataset
+```{r}
+# install.packages('e1071')
+library(e1071)
+svr_reg = svm(formula = Salary ~ . ,
+              data = dataset
+             )
+```
+
+
+### Predicting A New Result With Support Vector Regression
+```{r}
+X_test = 6.5 
+y_pred = predict(svr_reg, 
+                 data.frame(Level = X_test)
+                )
+sprintf("The expected annual salary for a person with 6.5 years of experience (in USD): %.2f", y_pred)
+```
+
+
+### Visualizing Support Vector Regression Results
+```{r}
+#install.packages('ggplot2')
+library(ggplot2)
+x_grid = seq(min(dataset$Level), 
+             max(dataset$Level),
+             0.1
+            )
+ggplot() +
+  geom_point(aes(x = dataset$Level,
+                 y = dataset$Salary
+                ),
+             colour = 'red'
+            ) +
+  geom_line(aes(x = x_grid,
+                y = predict(svr_reg, 
+                            data.frame(Level = x_grid)
+                           )
+               ),
+            colour = 'blue'
+           ) + 
+  ggtitle('Truth or Bluff (Support Vector Regression)') + 
+  xlab('Position Level') +
+  ylab('Salary') 
+```

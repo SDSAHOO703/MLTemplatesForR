@@ -1,0 +1,63 @@
+# Decision Tree Regression 
+
+### Importing the dataset
+```{r}
+ds = read.csv('Position_Salaries.csv')
+dataset = ds[2:3]   #First column is redundant 
+```
+
+
+### Installing necessary packages
+```{r}
+#install.packages('caTools')
+library(caTools)
+set.seed(123)
+```
+
+
+### Fitting Decision Tree Regression To The Dataset
+```{r}
+#install.packages('rpart')
+library(rpart)
+dt_reg = rpart(formula = Salary ~ . ,
+               data = dataset,
+               control = rpart.control(minsplit = 1)
+              )
+```
+
+
+### Predicting A New Result With Decision Tree Regression
+```{r}
+X_test = 6.5 
+y_pred = predict(dt_reg, 
+                 data.frame(Level = X_test)
+                )
+sprintf("The expected annual salary for a person with 6.5 years of experience (in USD): %.2f", y_pred)
+```
+
+
+### Visualizing Decision Tree Regression Results (higher resolution)
+```{r}
+#install.packages('ggplot2')
+library(ggplot2)
+x_grid = seq(min(dataset$Level), 
+             max(dataset$Level),
+             0.01
+            )
+ggplot() +
+  geom_point(aes(x = dataset$Level,
+                 y = dataset$Salary
+                ),
+             colour = 'red'
+            ) +
+  geom_line(aes(x = x_grid,
+                y = predict(dt_reg, 
+                            data.frame(Level = x_grid)
+                           )
+               ),
+            colour = 'blue'
+           ) + 
+  ggtitle('Truth or Bluff (Decision Tree Regression)') + 
+  xlab('Position Level') +
+  ylab('Salary')
+```
